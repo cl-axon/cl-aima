@@ -1,0 +1,32 @@
+Thu Oct 06 15:03:34 2005  Charles A. Cox  <cox@DDD>
+
+  General description:
+	
+    (1) shadow print-structure symbol which conflicts with Allegro Common
+    Graphics.
+	
+    (2) AIMA code was disabling package locks.  It's better for the user
+    to keep this mechanism activated.  It turns out that AIMA only needs
+    to add one new definition to a locked symbol, so the package lock is
+    now only turned off just for that one symbol.
+
+    (3) Check if Lisp is case-sensitive.  Some AIMA code is
+    case-insensitive.  While I'm sure it would be fairly easy to make AIMA
+    run in a case-sensitive Lisp, it would involve many more changes than I
+    felt I should make at this time.
+
+  Specifics:
+
+	* aima.lisp: Shadow symbol print-structure which conflicts with an
+	existing symbol in Allegro Common Graphics.  Also, signal user if
+	Lisp is case-sensitive since some AIMA code depends on
+	case-insensitivity.
+	
+	* search/algorithms/iterative.lisp: Remove undefined function
+	warning by adding an Allegro declaration.
+	
+	* utilities/cltl2.lisp: Remove Allegro package-lock override.
+
+	* utilities/utilities.lisp: Remove Allegro package-lock override.
+	Define 'while' inside Allegro without-package-locks.  Also, use
+	special-operator-p instead of obsolete special-form-p.
