@@ -1,0 +1,3 @@
+Convert to use asdf and quicklisp.
+
+Run in sbcl, note the warnings, and fix each of them.
