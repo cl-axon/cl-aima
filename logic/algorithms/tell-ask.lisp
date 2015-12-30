@@ -23,9 +23,10 @@
   (deletef sentence (literal-kb-sentences kb) :test #'equal))
 
 (defmethod ask-each ((kb literal-kb) query fn)
-  "For each proof of query, call fn on the substitution that 
+  "For each proof of query, call fn on the substitution that
   the proof ends up with."
-  (declare (special +no-bindings+))
+  ;; XXX the following is commented out for SBCL
+  ;;(declare (special +no-bindings+))
   (for each s in (literal-kb-sentences kb) do
        (when (equal s query) (funcall fn +no-bindings+))))
 
@@ -41,7 +42,7 @@
 (defun ask-pattern (kb query &optional (pattern query))
   "Ask if query sentence is true; if it is, substitute bindings into pattern."
   (ask-each kb (logic query)
-            #'(lambda (s) (RETURN-FROM ASK-PATTERN 
+            #'(lambda (s) (RETURN-FROM ASK-PATTERN
                             (subst-bindings s (logic pattern))))))
 
 (defun ask-patterns (kb query &optional (pattern query))
@@ -49,6 +50,6 @@
   once for each proof.  Return a list of all substituted patterns."
   (let ((pat (logic pattern))
         (results nil))
-    (ask-each kb (logic query) 
+    (ask-each kb (logic query)
               #'(lambda (s) (push (subst-bindings s pat) results)))
     (nreverse results)))
