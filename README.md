@@ -10,4 +10,4 @@ More information about this code is available here:
 
  * http://aima.cs.berkeley.edu/lisp/doc/overview.html
 
-The changes made are discussed in the file `ChangeLog' in this directory.
+The changes made are discussed in the file ``ChangeLog`` in this directory.
