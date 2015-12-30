@@ -11,17 +11,11 @@
 
 ;;;; A minimal facility for defining systems of files
 
-(defparameter *aima-root* (truename "~/public_html/code/") ; <<<<<<<< Edit this <<<<<<
+(defparameter *aima-root* (truename ".") ; <<<<<<<< Edit this <<<<<<
   "The root directory where the code is stored.")
 
 (defparameter *aima-binary-type*
-  (first (list   ; <<<<<<<<<<<<<<<<<<<< Edit this <<<<<<<<<
-       #+Lispworks system::*binary-file-type*
-       #+Lucid (first lucid::*load-binary-pathname-types*)
-       #+Allegro excl:*fasl-default-type*
-       #+(or AKCL KCL) "o"
-       #+CMU "sparcf"
-       #+CLISP "fas"))
+  (pathname-type (compile-file-pathname "foo.lisp"))
   "If calling aima-load loads your source files and not your compiled
   binary files, insert the file type for your binaries before the <<<<
   and load systems with (aima-load-binary NAME).")
@@ -40,7 +34,7 @@
 (defmacro def-aima-system (name requires doc &body parts)
   "Define a system as a list of parts.  A part can be a string, which denotes
   a file name; or a symbol, which denotes a (sub)system name; or a list of the
-  form (subdirectory / part...), which means the parts are in a subdirectory.
+  form (subdirector y/ part...), which means the parts are in a subdirectory.
   The REQUIRES argument is a list of systems that must be loaded before this
   one.  Note that a documentation string is mandatory."
   `(add-aima-system :name ',name
