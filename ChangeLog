@@ -30,3 +30,33 @@ Thu Oct 06 15:03:34 2005  Charles A. Cox  <cox@DDD>
     * utilities/utilities.lisp: Remove Allegro package-lock override.
     Define 'while' inside Allegro without-package-locks.  Also, use
     special-operator-p instead of obsolete special-form-p.
+
+0.99 AIMA Code, Appomattox Version, 09-Apr-2002
+    Updated Franz-specific conditional code to work with newest version.
+0.98 AIMA Code, Thelonious Monk Birthday Version, 10-Oct-2001
+    Line 190 of agents/environments/grid-env.lisp changed to
+    ((xy-p where) (parse-whats env where whats))
+    Previously it had the parameter order confused. Thanks to Yoshihiro Ota.
+0.97 AIMA Code, Shot Heard 'Round the World Day Version, 03-Oct-2001
+    Removed support of Lispworks from the documentation. Lispworks appears to have a bug with the treatment of special variables (it shows up in logic/algorithims/tell-ask.lisp). If someone sends me a workaround I'll add it. For now, I'll just limit official support to Allegro and MCL (although you certainly can get the code to work in other Lisps).
+
+0.96 AIMA Code, Palindrome Day Version, 10-02-2001
+    Replaced get-setf-method with get-setf-expansion, as per the ANSI standard. Updated documentation. The biggest error was that I didn't mention that you need to do a aima-load before the aima-compile. Tested code with Allegro, Lispworks, and MCL. It loads, compiles, and tests out ok in all three Lisps.
+
+0.95 AIMA Code, Patriots Day Version, 21-Apr-1997
+    Four main changes: First, modified much of the code to use an object-oriented approach using defmethod. We limited this to single-inheritance, and single dispatch (on the first argument). This is both because we wanted it to work even in old Lisps that don't have a CLOS (Common Lisp Object System) implementation, and because we wanted it to be familiar to programmers who are used to object-oriented approaches in other languages such as Java or Smalltalk. Second, added extensive machine-generated HTML documentation, of which this mpage is part. Third, the directory structure was re-organized. Fourth, completed the code for a chart parser and grammar in the language directory. There were also some minor bug fixes, e.g. David Palmer pointed out that the wumpus agent can pick up the wumpus when it is trying to pick up the gold.
+
+0.94 AIMA Code, Ground Hog Day Version, 2-Feb-1995
+    Ray Liere and David Palmer pointed out that non-square grid-environments were incorrectly initialized in grid-env.lisp. Roger Kirchner pointed out that the precedence of the | operator in infix.lisp was wrong. John Sterling discovered some files where we still referenced the USER package, and suggested removing the (declare (ignore contained?)) from DEFSETF GRID-CONTENTS to avoid a warning in MCL. The infix reader was enhanced to turn lowercase symbols into variables, i.e. "F(x,C)" turns into (F ?X C). Some code that answers exercises from the book was moved out of the code repository and into the soon-to-be-released instructor's manual. Added file "index.txt", which lists all functions, types, and variables, the page they appear on in the book, and the file they appear in.
+
+0.93 AIMA Code, Oral Roberts' Birthday Version, 24-Jan-1995
+    There were problems with older Common Lisps stemming from the difference between the USER and CL-USER packages, so I just decided to eliminate all code that deals with packages. There were a few other changes to fix problems in Clisp. When compiling under Clisp, if you get an error message that says a macro is being redefined, just type "continue". After you've compiled once, you won't get the message again when you load. The code has now been tested in Harlequin, Lucid, Franz, AKCL and Clisp.
+
+0.92 AIMA Code, Martin Luther King Day Version, 16-Jan-1995
+    Added new game-playing and logic code, and new systems for learning and uncertainty. Added some documentation and minor changes to agents and search code.
+
+0.91 AIMA Code, Newer Years Version, 5-Jan-1995
+    Fixed a few minor bugs that resulted from too-quickly merging two versions of the code, and added some (declare (ignore variable))s. Tested in several implementations of Common Lisp: Harlequin, Lucid, Franz, and AKCL.
+
+0.9 AIMA Code, New Years Version, 4-Jan-1995
+    A preliminary version, released because several instructors were starting courses this week. Only the AGENTS and SEARCH systems are supported, although unsupported code for other systems is included.
