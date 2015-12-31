@@ -1,6 +1,6 @@
 ## Agents (Subsystem of AIMA Code)
 
-[comment]: <> (Changed by: Peter Norvig, 30-Oct-1996)
+[comment]: # (Changed by: Peter Norvig, 30-Oct-1996)
 
 The <b>agents</b> subsystem covers the code in Part I of the book: the
 basic environment simulator <tt>run-environment</tt>; simulations for
