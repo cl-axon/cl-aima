@@ -5,7 +5,7 @@
 The <b>planning</b> subsystem will cover the code in Part IV of the
 book.  So far we have not developed any code.  However, there is a
 very good system called <A
-HREF="http://www.cs.washington.edu/research/projects/ai/www/ucpop.html">UCPOP</A>
+HREF="http://aiweb.cs.washington.edu/ai/ucpop.html">UCPOP</A>
 available from the University of Washington.  Much of the presentation
 in the book follows UCPOP and its predecessors and successors, so it
 should be easy to understand.
