@@ -1,11 +1,6 @@
-<HTML>
-<HEAD>
-<TITLE>Planning (Subsystem of AIMA Code)</TITLE> 
-<!-- Changed by: Peter Norvig, 30-Oct-1996 -->
-</HEAD> 
-<BODY bgcolor="#ffffff"> 
+## Planning (Subsystem of AIMA Code)
 
-<H1>Planning (Subsystem of AIMA Code)</H1>
+[comment]: # (Changed by: Peter Norvig, 30-Oct-1996)
 
 The <b>planning</b> subsystem will cover the code in Part IV of the
 book.  So far we have not developed any code.  However, there is a
@@ -18,9 +13,3 @@ should be easy to understand.
 <p>Eventually, we plan to provide our own simplified versions of
 several planners here, and show how to hook them up to the wumpus and
 shopping environments.<P>
-
-
-<LISP>
-
-</BODY> 
-</HTML>
