@@ -27,9 +27,18 @@ Load the code, compile it, and run the tests:
 
 ```cl
 * (load "aima.lisp")
+...
+T
 * (aima-load 'all)
+...
+T
 * (aima-compile)
+...
+T
 * (test 'all)
+...
+ 0 errors on system LANGUAGE
+0
 ```
 
 
