@@ -18,7 +18,7 @@ The changes made are discussed in the file ``ChangeLog`` in this directory.
 Download the code and then start up SBCL:
 
 ```bash
-$ git clone
+$ git clone git@github.com:oubiwann/cl-aima.git
 $ cd cl-aima
 $ sbcl
 ```
