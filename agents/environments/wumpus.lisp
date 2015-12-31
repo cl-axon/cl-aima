@@ -23,7 +23,7 @@
   ;; See if anyone died
   (for each agent in (environment-agents env) do
        (when (find-object-if #'deadly? (object-loc (agent-body agent)) env)
-	 (kill (agent-body agent))))
+   (kill (agent-body agent))))
   ;; Sounds dissipate
   (for each object in (grid-environment-objects env) do
        (setf (object-sound object) nil))
@@ -34,10 +34,10 @@
   "End when some agent climbs out, or for the default reason (everyone dead)."
   (or (call-next-method)
       (some #'(lambda (agent)
-		(and (equal (op (agent-action agent)) 'climb)
-		     (equal (object-loc (agent-body agent))
-			    (grid-environment-start env))))
-	    (environment-agents env))))
+    (and (equal (op (agent-action agent)) 'climb)
+         (equal (object-loc (agent-body agent))
+          (grid-environment-start env))))
+      (environment-agents env))))
 
 (defmethod performance-measure ((env wumpus-world) agent)
   "Score 1000 for getting the gold, with penalty of 10000 if dead
@@ -78,17 +78,17 @@
   (let ((arrow (find-if #'arrow-p (object-contents agent-body))))
     (when arrow
       (setf (object-contents agent-body)
-	    (delete arrow (object-contents agent-body)))
+      (delete arrow (object-contents agent-body)))
       (propagate-arrow (object-loc agent-body)
-		       (object-heading agent-body) env))))
+           (object-heading agent-body) env))))
 
 (defun propagate-arrow (loc heading env)
   "An arrow keeps going until it kills something or hits a wall."
   (let ((new-loc (add-locs loc heading)))
     (cond ((find-object-if #'object-alive? new-loc env)
-	   (kill (find-object-if #'object-alive? new-loc env)))
-	  ((find-object-if #'obstacle-p new-loc env))
-	  (t (propagate-arrow new-loc heading env)))))
+     (kill (find-object-if #'object-alive? new-loc env)))
+    ((find-object-if #'obstacle-p new-loc env))
+    (t (propagate-arrow new-loc heading env)))))
 
 (defun kill (object)
   "Make the object no longer alive."
