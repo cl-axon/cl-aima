@@ -1,3 +1,10 @@
+Wed Dec 30 18:10:21 CST 2015 Duncan M. McGreggor <oubiwann@gmail.com>
+
+Updated the code to work with SBCL. This involved simple changes such as
+converting DEFCONSTANT usage to DEFPARAMETER and commenting out a DECLARE usage
+for +no-bindings+.
+
+
 Thu Oct 06 15:03:34 2005  Charles A. Cox  <cox@DDD>
 
   General description:
