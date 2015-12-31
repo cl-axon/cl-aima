@@ -20,7 +20,7 @@
   binary files, insert the file type for your binaries before the <<<<
   and load systems with (aima-load-binary NAME).")
 
-(defconstant *aima-version*
+(defparameter *aima-version*
   "0.99 AIMA Code, Appomattox Version, 09-Apr-2002")
 
 (defparameter *aima-system-names* nil

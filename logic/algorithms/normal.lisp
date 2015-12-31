@@ -10,21 +10,21 @@
 
 (defun ->cnf (p &optional vars)
   "Convert a sentence p to conjunctive normal form [p 279-280]."
-  ;; That is, return (and (or ...) ...) where 
+  ;; That is, return (and (or ...) ...) where
   ;; each of the conjuncts has all literal disjuncts.
   ;; VARS is a list of universally quantified variables that P is in scope of.
   (setf p (eliminate-implications (logic p)))
   (case (op p)
     (NOT (let ((p2 (move-not-inwards (arg1 p))))
-	   (if (literal-clause? p2) p2 (->cnf p2 vars))))
+     (if (literal-clause? p2) p2 (->cnf p2 vars))))
     (AND (conjunction (mappend #'(lambda (q) (conjuncts (->cnf q vars)))
-				(args p))))
+        (args p))))
     (OR  (merge-disjuncts (mapcar #'(lambda (q) (->cnf q vars))
-				  (args p))))
+          (args p))))
     (FORALL (let ((new-vars (mapcar #'new-variable  (mklist (arg1 p)))))
-	   (->cnf (sublis (mapcar #'cons  (mklist (arg1 p)) new-vars)
-			  (arg2 p))
-		  (append new-vars vars))))
+     (->cnf (sublis (mapcar #'cons  (mklist (arg1 p)) new-vars)
+        (arg2 p))
+      (append new-vars vars))))
     (EXISTS (->cnf (skolemize (arg2 p) (arg1 p) vars) vars))
     (t   p) ; p is atomic
     ))
@@ -44,7 +44,7 @@
 (defun logic (sentence)
   "Canonicalize a sentence into proper logical form."
   (cond ((stringp sentence) (->prefix sentence))
-	(t sentence)))
+  (t sentence)))
 
 ;;;; Auxiliary Functions
 
@@ -53,7 +53,7 @@
   ;; Convert to: (=> (and a b ...) (or c d ...))
   ;; where a,b,c,d ... are positive atomic clauses
   (let ((lhs (mapcar #'arg1 (remove-if-not #'negative-clause? (disjuncts p))))
-	(rhs (remove-if #'negative-clause? (disjuncts p))))
+  (rhs (remove-if #'negative-clause? (disjuncts p))))
     `(=> ,(conjunction lhs) ,(disjunction rhs))))
 
 (defun eliminate-implications (p)
@@ -62,7 +62,7 @@
     (case (op p)
       (=>  `(or ,(arg2 p) (not ,(arg1 p))))
       (<=> `(and (or ,(arg1 p) (not ,(arg2 p)))
-		 (or (not ,(arg1 p)) ,(arg2 p))))
+     (or (not ,(arg1 p)) ,(arg2 p))))
       (t   (cons (op p) (mapcar #'eliminate-implications (args p)))))))
 
 (defun move-not-inwards (p)
@@ -85,22 +85,22 @@
     (0 'false)
     (1 (first disjuncts))
     (t (conjunction
-	(let ((result nil))
-	  (for each y in (conjuncts (merge-disjuncts (rest disjuncts))) do
-	       (for each x in (conjuncts (first disjuncts)) do
-		    (push (disjunction (append (disjuncts x) (disjuncts y)))
-			  result)))
-	  (nreverse result))))))
+  (let ((result nil))
+    (for each y in (conjuncts (merge-disjuncts (rest disjuncts))) do
+         (for each x in (conjuncts (first disjuncts)) do
+        (push (disjunction (append (disjuncts x) (disjuncts y)))
+        result)))
+    (nreverse result))))))
 
 (defun skolemize (p vars outside-vars)
   "Within the proposition P, replace each of VARS with a skolem constant,
   or if OUTSIDE-VARS is non-null, a skolem function of them."
   (sublis (mapcar #'(lambda (var)
-		      (cons var (if (null outside-vars)
-				    (skolem-constant var)
-				  (cons (skolem-constant var) outside-vars))))
-		  (mklist vars))
-	  p))
+          (cons var (if (null outside-vars)
+            (skolem-constant var)
+          (cons (skolem-constant var) outside-vars))))
+      (mklist vars))
+    p))
 
 (defun skolem-constant (name)
   "Return a unique skolem constant, a symbol starting with '$'."
@@ -110,28 +110,28 @@
   "Are p and q renamings of each other? (That is, expressions that differ
   only in variable names?)"
   (cond ((eq bindings +fail+) +fail+)
-	((equal p q) bindings)
-	((and (consp p) (consp q))
-	 (renaming? (rest p) (rest q)
-		    (renaming? (first p) (first q) bindings)))
-	((not (and (variable? p) (variable? q)))
-	 +fail+)
-	;; P and Q are both variables from here on
-	((and (not (get-binding p bindings)) (not (get-binding q bindings)))
-	 (extend-bindings p q bindings))
-	((or (eq (lookup p bindings) q) (eq p (lookup q bindings)))
-	 bindings)
-	(t +fail+)))
+  ((equal p q) bindings)
+  ((and (consp p) (consp q))
+   (renaming? (rest p) (rest q)
+        (renaming? (first p) (first q) bindings)))
+  ((not (and (variable? p) (variable? q)))
+   +fail+)
+  ;; P and Q are both variables from here on
+  ((and (not (get-binding p bindings)) (not (get-binding q bindings)))
+   (extend-bindings p q bindings))
+  ((or (eq (lookup p bindings) q) (eq p (lookup q bindings)))
+   bindings)
+  (t +fail+)))
 
 ;;;; Utility Predicates and Accessors
 
-(defconstant +logical-connectives+ '(and or not => <=>))
-(defconstant +logical-quantifiers+ '(forall exists))
+(defparameter +logical-connectives+ '(and or not => <=>))
+(defparameter +logical-quantifiers+ '(forall exists))
 
 (defun atomic-clause? (sentence)
   "An atomic clause has no connectives or quantifiers."
   (not (or (member (op sentence) +logical-connectives+)
-	   (member (op sentence) +logical-quantifiers+))))
+     (member (op sentence) +logical-quantifiers+))))
 
 (defun literal-clause? (sentence)
   "A literal is an atomic clause or a negated atomic clause."
@@ -152,14 +152,14 @@
 (defun conjuncts (sentence)
   "Return a list of the conjuncts in this sentence."
   (cond ((eq (op sentence) 'and) (args sentence))
-	((eq sentence 'true) nil)
-	(t (list sentence))))
+  ((eq sentence 'true) nil)
+  (t (list sentence))))
 
 (defun disjuncts (sentence)
   "Return a list of the disjuncts in this sentence."
   (cond ((eq (op sentence) 'or) (args sentence))
-	((eq sentence 'false) nil)
-	(t (list sentence))))
+  ((eq sentence 'false) nil)
+  (t (list sentence))))
 
 (defun conjunction (args)
   "Form a conjunction with these args."

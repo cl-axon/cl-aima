@@ -1,6 +1,6 @@
 ;;; -*- Mode: Lisp; Syntax: Common-Lisp; -*- File: utilities.lisp
 
-;;;; Basic utility functions and macros, used throughout the code. 
+;;;; Basic utility functions and macros, used throughout the code.
 
 ;;; The utilities are divided into control flow macros, list
 ;;; utilities, functions for 2-dimensional points, numeric utilities,
@@ -29,20 +29,20 @@
   (typecase var
     (symbol `(dolist (,var ,list) ,@body))
     (cons (let ((list-var (gensym)))
-	    `(dolist (,list-var ,list)
-	       (destructuring-bind ,var ,list-var ,@body))))
+      `(dolist (,list-var ,list)
+         (destructuring-bind ,var ,list-var ,@body))))
     (t (error "~V is an illegal variable in (for each ~V in ~A ...)"
-	      var list))))
+        var list))))
 
 (defmacro for (var = start to end do &body body)
   "Execute body with var bound to succesive integers."
   (cond ((eq var 'each) ; Allow (for each ...) instead of (for-each ...)
-	 `(for-each ,= ,start ,to ,end ,do ,@body))
-	(t (assert (eq = '=)) (assert (eq to 'to)) (assert (eq do 'do))
-	   (let ((end-var (gensym "END")))
-	     `(do ((,var ,start (+ 1 ,var)) (,end-var ,end))
-		  ((> ,var ,end-var) nil)
-		,@body)))))
+   `(for-each ,= ,start ,to ,end ,do ,@body))
+  (t (assert (eq = '=)) (assert (eq to 'to)) (assert (eq do 'do))
+     (let ((end-var (gensym "END")))
+       `(do ((,var ,start (+ 1 ,var)) (,end-var ,end))
+      ((> ,var ,end-var) nil)
+    ,@body)))))
 
 (defmacro deletef (item sequence &rest keys &environment env)
   "Destructively delete item from sequence, which must be SETF-able."
@@ -51,8 +51,8 @@
     (assert (= (length stores) 1))
     (let ((item-var (gensym "ITEM")))
     `(let* ((,item-var ,item)
-	    ,@(mapcar #'list temps vals)
-	    (,(first stores) (delete ,item-var ,access-form ,@keys)))
+      ,@(mapcar #'list temps vals)
+      (,(first stores) (delete ,item-var ,access-form ,@keys)))
       ,store-form))))
 
 (defmacro define-if-undefined (&rest definitions)
@@ -61,18 +61,18 @@
   CLtL2 compatibility for older Lisps."
   `(progn
      ,@(mapcar #'(lambda (def)
-		   (let ((name (second def)))
-		     `(when (not (or (boundp ',name) (fboundp ',name)
-				     ;; 5oct05 charley cox
-				     ;; this was just a call to special-form-p
-				     ;; which has been replaced by
-				     ;; special-operator-p in ANS.
-				     (if (fboundp 'special-operator-p)
-					 (funcall 'special-operator-p ',name)
-				       (funcall 'special-form-p ',name))
-				     (macro-function ',name)))
-		       ,def)))
-	       definitions)))
+       (let ((name (second def)))
+         `(when (not (or (boundp ',name) (fboundp ',name)
+             ;; 5oct05 charley cox
+             ;; this was just a call to special-form-p
+             ;; which has been replaced by
+             ;; special-operator-p in ANS.
+             (if (fboundp 'special-operator-p)
+           (funcall 'special-operator-p ',name)
+               (funcall 'special-form-p ',name))
+             (macro-function ',name)))
+           ,def)))
+         definitions)))
 
 ;;;; List Utilities
 
@@ -135,8 +135,8 @@ Expressions are used in Logic, and as actions for agents."
 (defun prefix->infix (exp)
   "Convert a fully parenthesized prefix expression into infix notation."
   (cond ((atom exp) exp)
-	((length=1 (args exp)) exp)
-	(t (insert-between (op exp) (mapcar #'prefix->infix (args exp))))))
+  ((length=1 (args exp)) exp)
+  (t (insert-between (op exp) (mapcar #'prefix->infix (args exp))))))
 
 (defun insert-between (item list)
   "Insert item between every element of list."
@@ -144,11 +144,11 @@ Expressions are used in Logic, and as actions for agents."
       list
     (list* (first list) item (insert-between item (rest list)))))
 
-;;;; Functions for manipulating 2-dimensional points 
+;;;; Functions for manipulating 2-dimensional points
 
 (defstruct (xy (:type list)) "A two-dimensional (i.e. x and y) point." x y)
 
-(defun xy-p (arg) 
+(defun xy-p (arg)
   "Is the argument a 2-D point?"
   (and (consp arg) (= (length arg) 2) (every #'numberp arg)))
 
@@ -163,7 +163,7 @@ Expressions are used in Logic, and as actions for agents."
 (defun xy-distance (p q)
   "The distance between two points."
   (sqrt (+ (square (- (xy-x p) (xy-x q)))
-	   (square (- (xy-y p) (xy-y q))))))
+     (square (- (xy-y p) (xy-y q))))))
 
 (defun x+y-distance (p q)
   "The 'city block distance' between two points."
@@ -177,7 +177,7 @@ Expressions are used in Logic, and as actions for agents."
 
 (defun rotate (o a b c d)
   (let ((x (xy-x o))
-	(y (xy-y o)))
+  (y (xy-y o)))
     (@ (+ (* a x) (* b y)) (+ (* c x) (* d y)))))
 
 (defun inside (l xmax ymax)
@@ -187,8 +187,8 @@ Expressions are used in Logic, and as actions for agents."
 
 ;;;; Numeric Utilities
 
-(defconstant infinity most-positive-single-float)
-(defconstant minus-infinity most-negative-single-float)
+(defparameter infinity most-positive-single-float)
+(defparameter minus-infinity most-negative-single-float)
 
 (defun average (numbers)
   "Numerical average (mean) of a list of numbers."
@@ -235,7 +235,7 @@ Expressions are used in Logic, and as actions for agents."
   (+ from (random (+ 1 (- to from)))))
 
 (defun normal (x mu sigma)
-  (/ (exp (/ (- (square (- x mu))) (* 2 (square sigma)))) 
+  (/ (exp (/ (- (square (- x mu))) (* 2 (square sigma))))
      (* (sqrt (* 2 pi)) sigma)))
 
 (defun sample-with-replacement (n population)
@@ -244,21 +244,21 @@ Expressions are used in Logic, and as actions for agents."
     result))
 
 (defun sample-without-replacement (n population &optional
-				     (m (length population)))
+             (m (length population)))
   ;; Assumes that m = (length population)
   (cond ((<= n 0) nil)
-	((>= n m) population)
-	((>= (/ n m) (random 1.0))
-	 (cons (first population) (sample-without-replacement
-				   (- n 1) (rest population) (- m 1))))
-	(t (sample-without-replacement n (rest population) (- m 1)))))
+  ((>= n m) population)
+  ((>= (/ n m) (random 1.0))
+   (cons (first population) (sample-without-replacement
+           (- n 1) (rest population) (- m 1))))
+  (t (sample-without-replacement n (rest population) (- m 1)))))
 
 (defun fuzz (quantity &optional (proportion .1) (round-off .01))
   "Add and also subtract a random fuzz-factor to a quantity."
   (round-off (+ quantity
-		(* quantity (- (random (float proportion))
-			       (random (float proportion)))))
-	     round-off))
+    (* quantity (- (random (float proportion))
+             (random (float proportion)))))
+       round-off))
 
 (defun round-off (number precision)
   "Round off the number to specified precision. E.g. (round-off 1.23 .1) = 1.2"
@@ -301,8 +301,8 @@ Expressions are used in Logic, and as actions for agents."
 (defun stringify (exp)
   "Coerce argument to a string."
   (cond ((stringp exp) exp)
-	((symbolp exp) (symbol-name exp))
-	(t (format nil "~A" exp))))
+  ((symbolp exp) (symbol-name exp))
+  (t (format nil "~A" exp))))
 
 (defun concat-symbol (&rest args)
   "Concatenate the args into one string, and turn that into a symbol."
@@ -311,30 +311,30 @@ Expressions are used in Logic, and as actions for agents."
 (defun print-grid (array &key (stream t) (key #'identity) (width 3))
   "Print the contents of a 2-D array, numbering the edges."
   (let ((max-x (- (array-dimension array 0) 1))
-	(max-y (- (array-dimension array 1) 1)))
+  (max-y (- (array-dimension array 1) 1)))
     ;; Print the header
     (format stream "~&") (print-repeated " " width stream)
     (for x = 0 to max-x do
-	 (format stream "|") (print-dashes width stream))
+   (format stream "|") (print-dashes width stream))
     (format stream "|~%")
     ;; Print each row
     (for y1 = 0 to max-y do
-	 (let ((y (- max-y y1)))
-	   (print-centered y width stream)
-	   ;; Print each location
-	   (for x = 0 to max-x do
-		(format stream "|")
-		(print-centered (funcall key (aref array x y)) width stream))
-	   (format stream "|~%") 
-	   ;; Print a dashed line
-	   (print-repeated " " width stream)
-	   (for x = 0 to max-x do
-		(format stream "|") (print-dashes width stream)))
-	 (format stream "|~%"))
+   (let ((y (- max-y y1)))
+     (print-centered y width stream)
+     ;; Print each location
+     (for x = 0 to max-x do
+    (format stream "|")
+    (print-centered (funcall key (aref array x y)) width stream))
+     (format stream "|~%")
+     ;; Print a dashed line
+     (print-repeated " " width stream)
+     (for x = 0 to max-x do
+    (format stream "|") (print-dashes width stream)))
+   (format stream "|~%"))
     ;; Print the X-coordinates along the bottom
     (print-repeated " " width stream)
     (for x = 0 to max-x do
-	 (format stream " ") (print-centered x width stream))
+   (format stream " ") (print-centered x width stream))
     array))
 
 (defun print-centered (string width &optional (stream t))
@@ -384,14 +384,14 @@ Expressions are used in Logic, and as actions for agents."
 (defun copy-hash-table (H1 &optional (copy-fn #'identity))
   (let ((H2 (make-hash-table :test #'equal)))
     (maphash #'(lambda (key val) (setf (gethash key H2) (funcall copy-fn val)))
-	     H1)
+       H1)
     H2))
 
 (defun hash-table->list (table)
   "Convert a hash table into a list of (key . val) pairs."
   (maphash #'cons table))
 
-(defun hprint (h &optional (stream t)) 
+(defun hprint (h &optional (stream t))
   "prints a hash table line by line"
   (maphash #'(lambda (key val) (format stream "~&~A:~10T ~A" key val)) h)
   h)
@@ -402,36 +402,36 @@ Expressions are used in Logic, and as actions for agents."
 
 (defun the-biggest (fn l)
   (let ((biggest (first l))
-	(best-val (funcall fn (first l))))
+  (best-val (funcall fn (first l))))
     (dolist (x (rest l))
       (let ((val (funcall fn x)))
-	(when (> val best-val)
-	  (setq best-val val)
-	  (setq biggest x))))
+  (when (> val best-val)
+    (setq best-val val)
+    (setq biggest x))))
     biggest))
 
 (defun the-biggest-random-tie (fn l)
   (random-element
    (let ((biggest (list (first l)))
-	 (best-val (funcall fn (first l))))
+   (best-val (funcall fn (first l))))
      (dolist (x (rest l))
        (let ((val (funcall fn x)))
-	 (cond ((> val best-val)
-		(setq best-val val)
-		(setq biggest (list x)))
-	       ((= val best-val)
-		(push x biggest)))))
+   (cond ((> val best-val)
+    (setq best-val val)
+    (setq biggest (list x)))
+         ((= val best-val)
+    (push x biggest)))))
      biggest)))
 
 (defun the-biggest-that (fn p l)
   (let ((biggest (first l))
-	(best-val (funcall fn (first l))))
+  (best-val (funcall fn (first l))))
     (dolist (x (rest l))
       (when (funcall p x)
-	(let ((val (funcall fn x)))
-	  (when (> val best-val)
-	    (setq best-val val)
-	    (setq biggest x)))))
+  (let ((val (funcall fn x)))
+    (when (> val best-val)
+      (setq best-val val)
+      (setq biggest x)))))
     biggest))
 
 (defun the-smallest (fn l)
@@ -467,7 +467,7 @@ Expressions are used in Logic, and as actions for agents."
 (defun add-test (name examples)
   "The functional interface for deftest: adds test examples to a system."
   (let ((system (or (get-aima-system name)
-		    (add-aima-system :name name :examples examples))))
+        (add-aima-system :name name :examples examples))))
     (setf (aima-system-examples system) examples))
   name)
 
@@ -478,21 +478,21 @@ Expressions are used in Logic, and as actions for agents."
   If there are no test examples in the named system, put the system has
   other systems as parts, run the tests for all those and sum the result."
   (let ((*print-pretty* t)
-	(*standard-output* (if print? *standard-output*
-			     (make-broadcast-stream)))
-	(system (aima-load-if-unloaded name)))
+  (*standard-output* (if print? *standard-output*
+           (make-broadcast-stream)))
+  (system (aima-load-if-unloaded name)))
     (cond ((null system) (warn "No such system as ~A." name))
-	  ((and (null (aima-system-examples system))
-		(every #'symbolp (aima-system-parts system)))
-	   (sum  (aima-system-parts system)
-		 #'(lambda (part) (test part print?))))
+    ((and (null (aima-system-examples system))
+    (every #'symbolp (aima-system-parts system)))
+     (sum  (aima-system-parts system)
+     #'(lambda (part) (test part print?))))
           (t (when print? (format t "Testing System ~A~%" name))
-	     (let ((errors (count-if-not #'(lambda (example) 
-					     (test-example example print?))
-			   (aima-system-examples system))))
-	       (format *debug-io* "~%~2D error~P on system ~A~%"
-		       errors errors name)
-	       errors)))))
+       (let ((errors (count-if-not #'(lambda (example)
+               (test-example example print?))
+         (aima-system-examples system))))
+         (format *debug-io* "~%~2D error~P on system ~A~%"
+           errors errors name)
+         errors)))))
 
 (defun test-example (example &optional (print? t))
   "Does the EXP part of this example pass the TEST?"
@@ -502,11 +502,11 @@ Expressions are used in Logic, and as actions for agents."
           (format t "~&;;; ~A~%" example))
         t)
     (let* ((exp (first example))
-	   (* nil)
-	   (test (cond ((null (second example)) t)
-		       ((constantp (second example))
-			`(equal * ,(second example)))
-		       (t (second example))))
+     (* nil)
+     (test (cond ((null (second example)) t)
+           ((constantp (second example))
+      `(equal * ,(second example)))
+           (t (second example))))
            test-result)
       (when (eq print? t)
         (format t "~&> ~S~%" exp))
@@ -521,4 +521,4 @@ Expressions are used in Logic, and as actions for agents."
           ((T) (format t "~&;;; FAILURE: expected ~S" test))
           (otherwise)))
       test-result)))
-  
+

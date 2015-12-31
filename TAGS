@@ -2,7 +2,7 @@
 aima.lisp,973
 (defparameter *aima-root* 9,198
 (defparameter *aima-binary-type*12,339
-(defconstant *aima-version*24,826
+(defparameter *aima-version*24,826
 (defparameter *aima-system-names* 27,911
 (defstruct aima-system30,1010
 (defmacro def-aima-system 35,1138
@@ -171,8 +171,8 @@ utilities/utilities.lisp,2292
 (defun xy-between 163,5672
 (defun rotate 168,5885
 (defun inside 173,5998
-(defconstant infinity 180,6199
-(defconstant minus-infinity 181,6249
+(defparameter infinity 180,6199
+(defparameter minus-infinity 181,6249
 (defun average 183,6306
 (defun running-average 187,6421
 (defun square 191,6557
@@ -565,8 +565,8 @@ logic/algorithms/normal.lisp,636
 (defun skolemize 95,3497
 (defun skolem-constant 105,3856
 (defun renaming? 109,4021
-(defconstant +logical-connectives+ 128,4678
-(defconstant +logical-quantifiers+ 129,4735
+(defparameter +logical-connectives+ 128,4678
+(defparameter +logical-quantifiers+ 129,4735
 (defun atomic-clause? 131,4789
 (defun literal-clause? 136,4987
 (defun negative-clause? 141,5191
@@ -603,8 +603,8 @@ logic/algorithms/tell-ask.lisp,187
 (defun ask-patterns 47,1895
 
 logic/algorithms/unify.lisp,596
-(defconstant +fail+ 13,502
-(defconstant +no-bindings+ 15,560
+(defparameter +fail+ 13,502
+(defparameter +no-bindings+ 15,560
 (defun unify 20,678
 (defun rename-variables 32,1163
 (defun unify-var 40,1387

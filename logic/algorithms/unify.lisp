@@ -10,9 +10,9 @@
 
 ;;;; Constants
 
-(defconstant +fail+ nil "Indicates unification failure")
+(defparameter +fail+ nil "Indicates unification failure")
 
-(defconstant +no-bindings+ '((nil))
+(defparameter +no-bindings+ '((nil))
   "Indicates unification success, with no variables.")
 
 ;;;; Top Level Functions
@@ -25,7 +25,7 @@
         ((variable? x) (unify-var x y bindings))
         ((variable? y) (unify-var y x bindings))
         ((and (consp x) (consp y))
-         (unify (rest x) (rest y) 
+         (unify (rest x) (rest y)
                 (unify (first x) (first y) bindings)))
         (t +fail+)))
 
@@ -121,7 +121,7 @@
                                  found-so-far))))
 
 (defun find-anywhere-if (predicate tree)
-  "Does predicate apply to any atom in the tree?"  
+  "Does predicate apply to any atom in the tree?"
   (if (atom tree)
       (funcall predicate tree)
       (or (find-anywhere-if predicate (first tree))
