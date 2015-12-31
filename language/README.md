@@ -1,11 +1,6 @@
-<HTML>
-<HEAD>
-<TITLE>Language (Subsystem of AIMA Code)</TITLE> 
-<!-- Changed by: Peter Norvig, 30-Oct-1996 -->
-</HEAD> 
-<BODY bgcolor="#ffffff"> 
+## Language (Subsystem of AIMA Code)
 
-<h1>Language (Subsystem of AIMA Code)</h1>
+[comment]: # (Changed by: Peter Norvig, 30-Oct-1996)
 
 The <b>language</b> subsystem covers the natural language processing
 code from Chapters 22 and 23 of the book.  The main parsing function
@@ -27,8 +22,3 @@ lexical entries on one line.
 that when an unknown word is encountered in the input, it is assumed to be
 one of these categories.
 </ul>
-
-<LISP>
-
-</BODY> 
-</HTML>
